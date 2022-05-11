@@ -14,6 +14,14 @@ class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(UserRepository repository) {
         return args -> {
+            // if no admin exists, add one
+            if (repository.getAdmin().isEmpty()) {
+                log.info("Adding admin " + repository.save(new User("Gianarg", "admin123",
+                        "giannis", "Argiros", "Gianarg@mail.com", "0123456789",
+                        "Paradeisos 666", "Ellas", "Kapou", true)));
+            }
+
+            // mock users for testing (added every time backEnd runs)
             log.info("Preloading " + repository.save(new User("MichaelCaineReal", "innit",
                     "Michael", "Caine", "MCaine@mail.com", "0123456789",
                     "InYourHouse 69", "England", "Liverpool", false)));
