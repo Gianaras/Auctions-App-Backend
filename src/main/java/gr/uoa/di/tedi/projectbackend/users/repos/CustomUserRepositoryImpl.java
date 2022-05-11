@@ -27,7 +27,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @Override // returns list of admins (should only be 1 admin)
     public List<User> getAdmin() {
-        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.isAdmin = true");
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.admin = true");
         return query.getResultList();
     }
 }

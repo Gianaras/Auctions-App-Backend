@@ -21,12 +21,12 @@ public class User {
     private String address;
     private String country;
     private String city;
-    private boolean isAdmin;
+    private boolean admin;
 
     public User() {}
 
     public User(String username, String password, String fName, String lName, String email, String phone,
-                String address, String country, String city, boolean isAdmin) {
+                String address, String country, String city, boolean admin) {
         this.username = username;
         this.password = password;
         this.firstName = fName;
@@ -36,6 +36,6 @@ public class User {
         this.address = address;
         this.country = country;
         this.city = city;
-        this.isAdmin = isAdmin;
+        this.admin = admin;
     }
 }
