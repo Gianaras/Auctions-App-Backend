@@ -22,11 +22,12 @@ public class User {
     private String country;
     private String city;
     private boolean admin;
+    private boolean activated;
 
     public User() {}
 
     public User(String username, String password, String fName, String lName, String email, String phone,
-                String address, String country, String city, boolean admin) {
+                String address, String country, String city, boolean admin, boolean activated) {
         this.username = username;
         this.password = password;
         this.firstName = fName;
@@ -37,5 +38,6 @@ public class User {
         this.country = country;
         this.city = city;
         this.admin = admin;
+        this.activated = activated;
     }
 }

@@ -18,17 +18,17 @@ class LoadDatabase {
             if (repository.getAdmin().isEmpty()) {
                 log.info("Adding admin " + repository.save(new User("Gianarg", "admin123",
                         "giannis", "Argiros", "Gianarg@mail.com", "0123456789",
-                        "Paradeisos 666", "Ellas", "Kapou", true)));
+                        "Paradeisos 666", "Ellas", "Kapou", true, true)));
             }
 
             // mock users for testing (added every time backEnd runs)
             log.info("Preloading " + repository.save(new User("MichaelCaineReal", "innit",
                     "Michael", "Caine", "MCaine@mail.com", "0123456789",
-                    "InYourHouse 69", "England", "Liverpool", false)));
+                    "InYourHouse 69", "England", "Liverpool", false, false)));
 
             log.info("Preloading " + repository.save(new User("slipperyNip420", "123",
                     "Jonathan", "Bayblade", "Jblade@inlook.com", "6969696969",
-                    "21 Jump Street", "USA", "Chicago", false)));
+                    "21 Jump Street", "USA", "Chicago", false, false)));
         };
     }
 }
