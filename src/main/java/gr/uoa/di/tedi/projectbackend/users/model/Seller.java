@@ -54,4 +54,11 @@ public class Seller {
         this.id = id;
     }
 
+    public Seller(){}
+
+    public Seller(User user,double sellerRating){
+        this.sellerRating= sellerRating;
+        this.user = user;
+    }
+
 }

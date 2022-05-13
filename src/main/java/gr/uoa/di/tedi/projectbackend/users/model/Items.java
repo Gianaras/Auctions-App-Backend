@@ -149,6 +149,20 @@ public class Items {
         this.id = id;
     }
 
+    public Items(String name,double buyPrice , double currentBid ,double firstBid , String description , Timestamp started ,
+                 Timestamp ends,int numberOfBids){
+        this.name=name;
+        this.buyPrice=buyPrice;
+        this.currentBid=currentBid;
+        this.firstBid=firstBid;
+        this.description=description;
+        this.started=started;
+        this.ends=ends;
+        this.numberOfBids=numberOfBids;
+    }
+
+    public Items(){}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,12 +1,16 @@
 package gr.uoa.di.tedi.projectbackend.users;
 
+import gr.uoa.di.tedi.projectbackend.users.model.Items;
 import gr.uoa.di.tedi.projectbackend.users.model.User;
+import gr.uoa.di.tedi.projectbackend.users.repos.ItemsRepository;
 import gr.uoa.di.tedi.projectbackend.users.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.sql.Timestamp;
 
 @Configuration
 @Slf4j
@@ -29,6 +33,13 @@ class LoadDatabase {
             log.info("Preloading " + repository.save(new User("slipperyNip420", "123123",
                     "Jonathan", "Bayblade", "Jblade@inlook.com", "6969696969",
                     "21 Jump Street", "USA", "Chicago", false, false)));
+        };
+    }
+    @Bean
+    CommandLineRunner initDatabase2(UserRepository userRepo,ItemsRepository itemRepo){
+        return args -> {
+            log.info("Preloading: "+ itemRepo.save( new Items("test",100,50,40,"This is a description",
+                    new Timestamp(1),new Timestamp(10),5)));
         };
     }
 }

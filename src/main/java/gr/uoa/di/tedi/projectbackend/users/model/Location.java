@@ -19,6 +19,8 @@ public class Location {
     @Column(name = "latitude")
     private String latitude;
 
+    //from the examples 'location' is pairs of characters indicating region ,
+    // probably US states, like CA for California etc.
     @Column(name = "location")
     private String location;
 
@@ -71,6 +73,15 @@ public class Location {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Location(){}
+
+    public Location(String country,String location,String longitude,String latitude){
+        this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.location =  location;
     }
 
 }

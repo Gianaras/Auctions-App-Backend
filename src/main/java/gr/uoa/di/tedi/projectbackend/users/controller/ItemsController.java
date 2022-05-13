@@ -18,13 +18,13 @@ public class ItemsController {
     }
 
     @GetMapping("/items") // this runs if you send a GET request while on /users
-    public ResponseEntity<List<Items>> getAllUsers() {
+    public ResponseEntity<List<Items>> getAllItems(){
         List<Items> items = service.getAllItems();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @GetMapping("/items/{id}") // this runs if you send a GET request while on /users/{id} etc
-    public ResponseEntity<Items> getUser(@PathVariable Long id) {
+    public ResponseEntity<Items> getItem(@PathVariable Long id) {
         Items item = service.getItem(id);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }

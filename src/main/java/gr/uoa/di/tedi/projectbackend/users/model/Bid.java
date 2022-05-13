@@ -1,6 +1,7 @@
 package gr.uoa.di.tedi.projectbackend.users.model;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -63,6 +64,15 @@ public class Bid {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Bid(){}
+
+    public Bid(Items item, Bidder bidder, double amount, Timestamp time){
+        this.amount = amount;
+        this.bidder = bidder;
+        this.items = item;
+        this.time = time;
     }
 
 }

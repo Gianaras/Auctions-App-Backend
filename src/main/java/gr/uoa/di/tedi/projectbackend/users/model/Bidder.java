@@ -54,4 +54,11 @@ public class Bidder {
         this.id = id;
     }
 
+    public Bidder(){}
+
+    public Bidder(User user,double bidderRating ){
+        this.bidderRating = bidderRating;
+        this.user = user;
+    }
+
 }
