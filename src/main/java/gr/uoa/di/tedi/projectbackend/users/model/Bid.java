@@ -9,7 +9,7 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "time")
     private Timestamp time;
@@ -57,11 +57,11 @@ public class Bid {
         this.time = time;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
