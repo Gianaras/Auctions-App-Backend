@@ -22,11 +22,11 @@ class LoadDatabase {
             }
 
             // mock users for testing (added every time backEnd runs)
-            log.info("Preloading " + repository.save(new User("MichaelCaineReal", "innit",
+            log.info("Preloading " + repository.save(new User("MichaelCaineReal", "innit123",
                     "Michael", "Caine", "MCaine@mail.com", "0123456789",
                     "InYourHouse 69", "England", "Liverpool", false, false)));
 
-            log.info("Preloading " + repository.save(new User("slipperyNip420", "123",
+            log.info("Preloading " + repository.save(new User("slipperyNip420", "123123",
                     "Jonathan", "Bayblade", "Jblade@inlook.com", "6969696969",
                     "21 Jump Street", "USA", "Chicago", false, false)));
         };
