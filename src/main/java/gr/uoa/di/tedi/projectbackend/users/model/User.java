@@ -2,9 +2,7 @@ package gr.uoa.di.tedi.projectbackend.users.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 // spring automatically generates getters and setters for below fields
 
@@ -23,6 +21,42 @@ public class User {
     private String city;
     private boolean admin;
     private boolean activated;
+
+
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private Bidder bidder;
+
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private Seller seller;
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Bidder getBidder() {
+        return bidder;
+    }
+
+    public void setBidder(Bidder bidder) {
+        this.bidder = bidder;
+    }
+
 
     public User() {}
 
