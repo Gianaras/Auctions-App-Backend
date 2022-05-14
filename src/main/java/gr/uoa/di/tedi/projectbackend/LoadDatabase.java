@@ -2,8 +2,11 @@ package gr.uoa.di.tedi.projectbackend;
 
 import gr.uoa.di.tedi.projectbackend.model.Items;
 import gr.uoa.di.tedi.projectbackend.model.User;
+import gr.uoa.di.tedi.projectbackend.repos.BidderRepository;
 import gr.uoa.di.tedi.projectbackend.repos.ItemsRepository;
+import gr.uoa.di.tedi.projectbackend.repos.SellerRepository;
 import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
+import gr.uoa.di.tedi.projectbackend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.CommandLineRunner;
@@ -26,24 +29,22 @@ class LoadDatabase {
                         "giannis", "Argiros", "Gianarg@mail.com", "0123456789",
                         "Paradeisos 666", "Ellas", "Kapou", true, true)));
             }
-
             // mock users for testing (added every time backEnd runs)
             log.info("Preloading " + repository.save(new User("MichaelCaineReal",
                     bCryptPasswordEncoder.encode("innit123"),
                     "Michael", "Caine", "MCaine@mail.com", "0123456789",
                     "InYourHouse 69", "England", "Liverpool", false, false)));
 
-            log.info("Preloading " + repository.save(new User("slipperyNip420",
-                    bCryptPasswordEncoder.encode("123123"),
-                    "Jonathan", "Bayblade", "Jblade@inlook.com", "6969696969",
-                    "21 Jump Street", "USA", "Chicago", false, false)));
         };
     }
     @Bean
-    CommandLineRunner initDatabase2(UserRepository userRepo,ItemsRepository itemRepo){
+    CommandLineRunner initDatabase2(UserRepository userRepo, SellerRepository sellerRepo, BidderRepository bidderRepo){
+        UserService userService =  new UserService(userRepo,sellerRepo,bidderRepo);
         return args -> {
-            log.info("Preloading: "+ itemRepo.save( new Items("test",100,50,40,"This is a description",
-                    new Timestamp(1),new Timestamp(10),5)));
+            log.info("test" + userService.addUser(new User("sellettest",
+                    bCryptPasswordEncoder.encode("innit123"),
+                    "Msdfichael", "Caiasdfne", "MCaine@mail.com", "0123456789",
+                    "InYourHouse 69", "England", "Liverpool", false, false)));
         };
     }
 }

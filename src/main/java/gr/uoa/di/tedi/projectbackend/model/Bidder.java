@@ -1,4 +1,4 @@
-package gr.uoa.di.tedi.projectbackend.model;
+package gr.uoa.di.tedi.projectbackend.users.model;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -12,7 +12,7 @@ public class Bidder {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(optional = false)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
