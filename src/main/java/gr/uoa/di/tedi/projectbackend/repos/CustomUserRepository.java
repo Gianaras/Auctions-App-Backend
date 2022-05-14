@@ -1,6 +1,6 @@
-package gr.uoa.di.tedi.projectbackend.users.repos;
+package gr.uoa.di.tedi.projectbackend.repos;
 
-import gr.uoa.di.tedi.projectbackend.users.model.User;
+import gr.uoa.di.tedi.projectbackend.model.User;
 import java.util.List;
 
 // Interface for extra functions that interact with the database

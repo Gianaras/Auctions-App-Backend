@@ -1,8 +1,8 @@
-package gr.uoa.di.tedi.projectbackend.users.service;
+package gr.uoa.di.tedi.projectbackend.service;
 
-import gr.uoa.di.tedi.projectbackend.users.handling.UserNotFoundException;
-import gr.uoa.di.tedi.projectbackend.users.model.User;
-import gr.uoa.di.tedi.projectbackend.users.repos.UserRepository;
+import gr.uoa.di.tedi.projectbackend.handling.UserNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.User;
+import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

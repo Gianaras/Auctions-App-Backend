@@ -1,7 +1,7 @@
-package gr.uoa.di.tedi.projectbackend.users.service;
-import gr.uoa.di.tedi.projectbackend.users.handling.ItemNotFoundException;
-import gr.uoa.di.tedi.projectbackend.users.model.Items;
-import gr.uoa.di.tedi.projectbackend.users.repos.ItemsRepository;
+package gr.uoa.di.tedi.projectbackend.service;
+import gr.uoa.di.tedi.projectbackend.handling.ItemNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.Items;
+import gr.uoa.di.tedi.projectbackend.repos.ItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package gr.uoa.di.tedi.projectbackend.users.handling;
+package gr.uoa.di.tedi.projectbackend.handling;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(Long id) {

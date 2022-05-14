@@ -1,4 +1,4 @@
-package gr.uoa.di.tedi.projectbackend.users.handling;
+package gr.uoa.di.tedi.projectbackend.handling;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class UserNotFoundAdvice {
+class ItemNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(ItemNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String UserNotFoundHandler(UserNotFoundException ex) {
+    String ItemNotFoundHandler(ItemNotFoundException ex) {
         return ex.getMessage();
     }
 }

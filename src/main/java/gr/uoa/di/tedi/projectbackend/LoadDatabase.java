@@ -1,9 +1,9 @@
-package gr.uoa.di.tedi.projectbackend.users;
+package gr.uoa.di.tedi.projectbackend;
 
-import gr.uoa.di.tedi.projectbackend.users.model.Items;
-import gr.uoa.di.tedi.projectbackend.users.model.User;
-import gr.uoa.di.tedi.projectbackend.users.repos.ItemsRepository;
-import gr.uoa.di.tedi.projectbackend.users.repos.UserRepository;
+import gr.uoa.di.tedi.projectbackend.model.Items;
+import gr.uoa.di.tedi.projectbackend.model.User;
+import gr.uoa.di.tedi.projectbackend.repos.ItemsRepository;
+import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.CommandLineRunner;

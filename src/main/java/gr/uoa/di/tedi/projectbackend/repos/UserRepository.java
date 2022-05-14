@@ -1,6 +1,6 @@
-package gr.uoa.di.tedi.projectbackend.users.repos;
+package gr.uoa.di.tedi.projectbackend.repos;
 
-import gr.uoa.di.tedi.projectbackend.users.model.User;
+import gr.uoa.di.tedi.projectbackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 // this repository inherits from jpaRepository (basic ready-made functions like adding, deleting, updating users etc.)

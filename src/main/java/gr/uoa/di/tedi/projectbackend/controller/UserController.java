@@ -1,7 +1,7 @@
-package gr.uoa.di.tedi.projectbackend.users.controller;
+package gr.uoa.di.tedi.projectbackend.controller;
 
-import gr.uoa.di.tedi.projectbackend.users.model.User;
-import gr.uoa.di.tedi.projectbackend.users.service.UserService;
+import gr.uoa.di.tedi.projectbackend.model.User;
+import gr.uoa.di.tedi.projectbackend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
