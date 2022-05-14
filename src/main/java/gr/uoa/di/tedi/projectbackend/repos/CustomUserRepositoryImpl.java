@@ -29,4 +29,15 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.admin = true");
         return query.getResultList();
     }
+
+    @Override
+    public User findByUsername(String username) {
+        User user = null;
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = ?1");
+        query.setParameter(1, username);
+        List<User> users = query.getResultList();
+        if (users != null && users.size() > 0)
+            user = users.get(0);
+        return user;
+    }
 }

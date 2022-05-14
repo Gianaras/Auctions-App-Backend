@@ -7,4 +7,5 @@ import java.util.List;
 public interface CustomUserRepository {
     List<User> getUsernameLike(String name);
     List<User> getAdmin();
+    User findByUsername(String username);
 }

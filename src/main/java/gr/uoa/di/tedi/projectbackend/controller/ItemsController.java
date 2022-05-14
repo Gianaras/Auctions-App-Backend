@@ -1,6 +1,5 @@
 package gr.uoa.di.tedi.projectbackend.controller;
 
-
 import gr.uoa.di.tedi.projectbackend.model.Items;
 import gr.uoa.di.tedi.projectbackend.service.ItemsService;
 import org.springframework.http.HttpStatus;
@@ -8,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+// everyone can access items, even without being logged in
 
 @RestController
 public class ItemsController {
