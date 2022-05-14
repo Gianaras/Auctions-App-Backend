@@ -1,5 +1,7 @@
 package gr.uoa.di.tedi.projectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,6 +16,7 @@ public class Bidder {
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "bidder_rating")

@@ -35,7 +35,7 @@ class LoadDatabase {
     }
     @Bean
     CommandLineRunner initDatabase2(UserRepository userRepo, SellerRepository sellerRepo, BidderRepository bidderRepo,
-            BCryptPasswordEncoder bCryptPasswordEncoder){
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
         UserService userService =  new UserService(userRepo, sellerRepo, bidderRepo);
         return args -> log.info("test" + userService.addUser(new User("sellettest",
                 bCryptPasswordEncoder.encode("innit123"),
