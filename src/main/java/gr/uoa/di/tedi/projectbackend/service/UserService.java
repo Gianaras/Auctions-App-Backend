@@ -1,7 +1,11 @@
 package gr.uoa.di.tedi.projectbackend.service;
 
 import gr.uoa.di.tedi.projectbackend.handling.UserNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.Bidder;
+import gr.uoa.di.tedi.projectbackend.model.Seller;
 import gr.uoa.di.tedi.projectbackend.model.User;
+import gr.uoa.di.tedi.projectbackend.repos.BidderRepository;
+import gr.uoa.di.tedi.projectbackend.repos.SellerRepository;
 import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,9 +23,15 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
+    private final BidderRepository bidderRepo;
+    private final SellerRepository sellerRepo;
 
     @Autowired
-    public UserService(UserRepository repository) { this.repository = repository; }
+    public UserService(UserRepository repository, SellerRepository sellerRepo, BidderRepository bidderRepo) {
+        this.sellerRepo = sellerRepo;
+        this.bidderRepo = bidderRepo;
+        this.repository = repository;
+    }
 
     public List<User> getAllUsers() { return repository.findAll(); }
 
@@ -32,11 +42,22 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUserLike(String name) { return repository.getUsernameLike(name); }
 
-    public User addUser(User newUser) { return repository.save(newUser); }
-
     public void deleteUser(Long id) { repository.deleteById(id); }
 
     public User updateUser(User user) { return repository.save(user); }
+
+    public User addUser(User newUser) {
+        //Bidder and seller relations are created whenever a new user is created
+
+        //Because user must exist before we create bidder,seller
+        //we save the user here
+        repository.save(newUser);
+        //add bidders and sellers
+        newUser.setBidder(bidderRepo.save(new Bidder(newUser,1000)));
+        newUser.setSeller(sellerRepo.save(new Seller(newUser,1000)));
+        //and then we update the user
+        return repository.save(newUser);
+    }
 
     @Override // override from UserDetailsService. Returns UserDetails object which includes user roles
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

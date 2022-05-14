@@ -1,6 +1,6 @@
-package gr.uoa.di.tedi.projectbackend.users.handling;
+package gr.uoa.di.tedi.projectbackend.handling;
 
-import gr.uoa.di.tedi.projectbackend.users.service.BidderService;
+import gr.uoa.di.tedi.projectbackend.service.BidderService;
 
 public class BidderNotFoundException extends RuntimeException{
     public BidderNotFoundException(Long id){super("Could not find Bid " + id);}

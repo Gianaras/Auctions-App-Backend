@@ -1,9 +1,9 @@
-package gr.uoa.di.tedi.projectbackend.users.service;
+package gr.uoa.di.tedi.projectbackend.service;
 
 
-import gr.uoa.di.tedi.projectbackend.users.handling.BidNotFoundException;
-import gr.uoa.di.tedi.projectbackend.users.model.Bid;
-import gr.uoa.di.tedi.projectbackend.users.repos.BidRepository;
+import gr.uoa.di.tedi.projectbackend.handling.BidNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.Bid;
+import gr.uoa.di.tedi.projectbackend.repos.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

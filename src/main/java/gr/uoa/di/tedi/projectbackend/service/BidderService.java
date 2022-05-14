@@ -1,10 +1,10 @@
-package gr.uoa.di.tedi.projectbackend.users.service;
+package gr.uoa.di.tedi.projectbackend.service;
 
 
-import gr.uoa.di.tedi.projectbackend.users.handling.BidderNotFoundException;
-import gr.uoa.di.tedi.projectbackend.users.handling.UserNotFoundException;
-import gr.uoa.di.tedi.projectbackend.users.model.Bidder;
-import gr.uoa.di.tedi.projectbackend.users.repos.BidderRepository;
+import gr.uoa.di.tedi.projectbackend.handling.BidderNotFoundException;
+import gr.uoa.di.tedi.projectbackend.handling.UserNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.Bidder;
+import gr.uoa.di.tedi.projectbackend.repos.BidderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

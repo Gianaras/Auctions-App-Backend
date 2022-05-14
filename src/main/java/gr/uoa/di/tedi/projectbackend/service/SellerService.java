@@ -1,9 +1,9 @@
-package gr.uoa.di.tedi.projectbackend.users.service;
+package gr.uoa.di.tedi.projectbackend.service;
 
 
-import gr.uoa.di.tedi.projectbackend.users.handling.SellerNotFoundException;
-import gr.uoa.di.tedi.projectbackend.users.model.Seller;
-import gr.uoa.di.tedi.projectbackend.users.repos.SellerRepository;
+import gr.uoa.di.tedi.projectbackend.handling.SellerNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.Seller;
+import gr.uoa.di.tedi.projectbackend.repos.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

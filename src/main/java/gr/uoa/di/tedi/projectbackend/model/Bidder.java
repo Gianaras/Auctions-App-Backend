@@ -1,4 +1,4 @@
-package gr.uoa.di.tedi.projectbackend.users.model;
+package gr.uoa.di.tedi.projectbackend.model;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
