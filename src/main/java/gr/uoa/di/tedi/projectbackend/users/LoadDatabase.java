@@ -2,8 +2,11 @@ package gr.uoa.di.tedi.projectbackend.users;
 
 import gr.uoa.di.tedi.projectbackend.users.model.Items;
 import gr.uoa.di.tedi.projectbackend.users.model.User;
+import gr.uoa.di.tedi.projectbackend.users.repos.BidderRepository;
 import gr.uoa.di.tedi.projectbackend.users.repos.ItemsRepository;
+import gr.uoa.di.tedi.projectbackend.users.repos.SellerRepository;
 import gr.uoa.di.tedi.projectbackend.users.repos.UserRepository;
+import gr.uoa.di.tedi.projectbackend.users.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.CommandLineRunner;
@@ -24,22 +27,20 @@ class LoadDatabase {
                         "giannis", "Argiros", "Gianarg@mail.com", "0123456789",
                         "Paradeisos 666", "Ellas", "Kapou", true, true)));
             }
-
             // mock users for testing (added every time backEnd runs)
             log.info("Preloading " + repository.save(new User("MichaelCaineReal", "innit123",
                     "Michael", "Caine", "MCaine@mail.com", "0123456789",
                     "InYourHouse 69", "England", "Liverpool", false, false)));
 
-            log.info("Preloading " + repository.save(new User("slipperyNip420", "123123",
-                    "Jonathan", "Bayblade", "Jblade@inlook.com", "6969696969",
-                    "21 Jump Street", "USA", "Chicago", false, false)));
         };
     }
     @Bean
-    CommandLineRunner initDatabase2(UserRepository userRepo,ItemsRepository itemRepo){
+    CommandLineRunner initDatabase2(UserRepository userRepo, SellerRepository sellerRepo, BidderRepository bidderRepo){
+        UserService userService =  new UserService(userRepo,sellerRepo,bidderRepo);
         return args -> {
-            log.info("Preloading: "+ itemRepo.save( new Items("test",100,50,40,"This is a description",
-                    new Timestamp(1),new Timestamp(10),5)));
+            log.info("test" + userService.addUser(new User("sellettest", "innit123",
+                    "Msdfichael", "Caiasdfne", "MCaine@mail.com", "0123456789",
+                    "InYourHouse 69", "England", "Liverpool", false, false)));
         };
     }
 }

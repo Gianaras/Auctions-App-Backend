@@ -12,7 +12,7 @@ public class Bidder {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(optional = false)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
