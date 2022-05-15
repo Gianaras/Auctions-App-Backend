@@ -52,6 +52,17 @@ public class Items {
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
+    @ManyToMany(mappedBy = "items")
+    private Set<Category> categories = new LinkedHashSet<>();
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     public Seller getSeller() {
         return seller;
     }
