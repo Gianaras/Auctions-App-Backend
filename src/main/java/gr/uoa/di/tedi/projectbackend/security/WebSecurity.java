@@ -63,6 +63,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.applyPermitDefaultValues();
         config.addExposedHeader("Authorization");
+        config.addExposedHeader("IsAdmin");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
