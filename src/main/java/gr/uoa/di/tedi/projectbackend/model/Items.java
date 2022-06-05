@@ -17,9 +17,6 @@ public class Items {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "current_bid")
     private Double currentBid;
 
@@ -38,9 +35,6 @@ public class Items {
     @Column(name = "ends")
     private Timestamp ends;
 
-    @Column(name = "description")
-    private String description;
-
     @OneToMany(mappedBy = "items", orphanRemoval = true)
     private Set<Bid> bids = new LinkedHashSet<>();
 
@@ -54,6 +48,17 @@ public class Items {
 
     @ManyToMany(mappedBy = "items")
     private Set<Category> categories = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "items", orphanRemoval = true)
+    private Set<Item> items = new LinkedHashSet<>();
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
 
     public Set<Category> getCategories() {
         return categories;
@@ -86,14 +91,6 @@ public class Items {
 
     public void setBids(Set<Bid> bids) {
         this.bids = bids;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Timestamp getEnds() {
@@ -144,14 +141,6 @@ public class Items {
         this.currentBid = currentBid;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Long getId() {
         return id;
     }
@@ -160,13 +149,12 @@ public class Items {
         this.id = id;
     }
 
-    public Items(String name,double buyPrice , double currentBid ,double firstBid , String description , Timestamp started ,
+    public Items(Set<Item> items,double buyPrice , double currentBid ,double firstBid  , Timestamp started ,
                  Timestamp ends,int numberOfBids){
-        this.name=name;
         this.buyPrice=buyPrice;
+        this.items = items;
         this.currentBid=currentBid;
         this.firstBid=firstBid;
-        this.description=description;
         this.started=started;
         this.ends=ends;
         this.numberOfBids=numberOfBids;
