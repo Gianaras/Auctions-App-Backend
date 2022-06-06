@@ -20,6 +20,13 @@ public class Item {
     @Column(name = "name")
     private String name;
 
+    public Item() { }
+
+    public Item(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }

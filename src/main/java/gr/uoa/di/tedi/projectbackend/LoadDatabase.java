@@ -3,10 +3,8 @@ package gr.uoa.di.tedi.projectbackend;
 import gr.uoa.di.tedi.projectbackend.model.Item;
 import gr.uoa.di.tedi.projectbackend.model.Items;
 import gr.uoa.di.tedi.projectbackend.model.User;
-import gr.uoa.di.tedi.projectbackend.repos.BidderRepository;
-import gr.uoa.di.tedi.projectbackend.repos.ItemsRepository;
-import gr.uoa.di.tedi.projectbackend.repos.SellerRepository;
-import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
+import gr.uoa.di.tedi.projectbackend.repos.*;
+import gr.uoa.di.tedi.projectbackend.service.ItemsService;
 import gr.uoa.di.tedi.projectbackend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,31 +50,28 @@ class LoadDatabase {
     }
 
     @Bean
-    CommandLineRunner initDatabase3(ItemsRepository repository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    CommandLineRunner initDatabase3(ItemsRepository itemsRepository, ItemRepository itemRepository,
+                                    BCryptPasswordEncoder bCryptPasswordEncoder) {
         long now = System.currentTimeMillis();
+        ItemsService itemsService = new ItemsService(itemsRepository, itemRepository);
 
         Set<Item> iceCreamSet = new HashSet<>();
-        Item iceCream = new Item();
-        iceCream.setName("ice cream");
-        iceCream.setDescription("chocolate");
+        Item iceCream = new Item("ice cream", "chocolate");
         iceCreamSet.add(iceCream);
+
+        itemRepository.save(iceCream);
 
         Set<Item> vampireSet = new HashSet<>();
 
-        Item jarOfBlood = new Item();
-        jarOfBlood.setName("jar of human blood");
-        jarOfBlood.setDescription("extracted during full moon.");
+        Item jarOfBlood = new Item("jar of human blood", "extracted during full moon.");
         vampireSet.add(jarOfBlood);
-
-        Item cape = new Item();
-        cape.setName("cool cape");
-        cape.setDescription("quality fabric.");
+        Item cape = new Item("cool cape", "quality fabric.");
         vampireSet.add(cape);
 
         return args -> {
-            log.info("Adding items " + repository.save(new Items(iceCreamSet, 10.0, 0.0, 1.0,
-                    new Timestamp(now), new Timestamp(now + 600000), 0)));
-            log.info("Adding items " + repository.save(new Items(vampireSet, 5000.0, 0.0,
+            log.info("Adding items " + itemsService.addItem(new Items(iceCreamSet, 10.0, 0.0,
+                    1.0, new Timestamp(now), new Timestamp(now + 600000), 0)));
+            log.info("Adding items " + itemsService.addItem(new Items(vampireSet, 5000.0, 0.0,
                     100.0, new Timestamp(now), new Timestamp(now + 600000), 0)));
         };
     }
