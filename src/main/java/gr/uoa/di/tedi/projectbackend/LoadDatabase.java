@@ -55,24 +55,19 @@ class LoadDatabase {
         long now = System.currentTimeMillis();
         ItemsService itemsService = new ItemsService(itemsRepository, itemRepository);
 
-        Set<Item> iceCreamSet = new HashSet<>();
-        Item iceCream = new Item("ice cream", "chocolate");
-        iceCreamSet.add(iceCream);
+        Items listing =  new Items(10.0, 0.0,
+                1.0, new Timestamp(now), new Timestamp(now + 600000), 0);
+        itemsService.addItems(listing);
 
+        Item iceCream = new Item("ice cream", "chocolate",listing);
         itemRepository.save(iceCream);
 
-        Set<Item> vampireSet = new HashSet<>();
 
-        Item jarOfBlood = new Item("jar of human blood", "extracted during full moon.");
-        vampireSet.add(jarOfBlood);
-        Item cape = new Item("cool cape", "quality fabric.");
-        vampireSet.add(cape);
+        listing.getItems().add(iceCream);
+        itemsService.updateItem(listing);
 
         return args -> {
-            log.info("Adding items " + itemsService.addItem(new Items(iceCreamSet, 10.0, 0.0,
-                    1.0, new Timestamp(now), new Timestamp(now + 600000), 0)));
-            log.info("Adding items " + itemsService.addItem(new Items(vampireSet, 5000.0, 0.0,
-                    100.0, new Timestamp(now), new Timestamp(now + 600000), 0)));
+            log.info("Adding items " + listing);
         };
     }
 }

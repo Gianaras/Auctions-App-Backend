@@ -149,10 +149,9 @@ public class Items {
         this.id = id;
     }
 
-    public Items(Set<Item> items,double buyPrice , double currentBid ,double firstBid  , Timestamp started ,
+    public Items(double buyPrice , double currentBid ,double firstBid  , Timestamp started ,
                  Timestamp ends,int numberOfBids){
         this.buyPrice=buyPrice;
-        this.items = items;
         this.currentBid=currentBid;
         this.firstBid=firstBid;
         this.started=started;

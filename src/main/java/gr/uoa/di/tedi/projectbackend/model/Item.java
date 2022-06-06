@@ -7,11 +7,11 @@ import javax.persistence.*;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "items_id", nullable = false)
+    @JoinColumn(name = "items_id")
     private Items items;
 
     @Column(name = "description")
@@ -22,7 +22,8 @@ public class Item {
 
     public Item() { }
 
-    public Item(String name, String description) {
+    public Item(String name, String description,Items items) {
+        this.items = items;
         this.name = name;
         this.description = description;
     }

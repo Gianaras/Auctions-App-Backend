@@ -1,5 +1,6 @@
 package gr.uoa.di.tedi.projectbackend.service;
 import gr.uoa.di.tedi.projectbackend.handling.ItemNotFoundException;
+import gr.uoa.di.tedi.projectbackend.model.Item;
 import gr.uoa.di.tedi.projectbackend.model.Items;
 import gr.uoa.di.tedi.projectbackend.repos.ItemsRepository;
 import gr.uoa.di.tedi.projectbackend.repos.ItemRepository;
@@ -19,11 +20,15 @@ public class ItemsService {
         this.itemRepository = itemRepository;
     }
 
-    public Items addItem(Items newItems) {
-        itemsRepository.save(newItems);
-        itemRepository.saveAll(newItems.getItems());
+    public Items addItems(Items newItems) {
         return itemsRepository.save(newItems);
     }
+
+    public Items addNewItem(Items items, Item newItem){
+        items.getItems().add(newItem);
+        return itemsRepository.save(items);
+    }
+
 
     public void deleteItem(Long id) { itemsRepository.deleteById(id); }
 

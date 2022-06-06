@@ -32,7 +32,7 @@ public class ItemsController {
 
     @PostMapping("/items")
     public ResponseEntity<Items> addItem(@RequestBody Items newItem) {
-        Items item = service.addItem(newItem);
+        Items item = service.addItems(newItem);
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
     @PutMapping ("/items/{id}")
