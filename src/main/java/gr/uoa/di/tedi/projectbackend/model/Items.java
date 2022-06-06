@@ -31,9 +31,11 @@ public class Items {
 
     @Column(name = "started")
     private Timestamp started;
+    private Long startedUTC;
 
     @Column(name = "ends")
     private Timestamp ends;
+    private Long endsUTC;
 
     @OneToMany(mappedBy = "items", orphanRemoval = true)
     private Set<Bid> bids = new LinkedHashSet<>();
@@ -76,6 +78,9 @@ public class Items {
         this.seller = seller;
     }
 
+    public Long getStartedUTC() { return startedUTC; }
+
+    public void setStartedUTC(Long startedUTC) { this.startedUTC = startedUTC; }
 
     public Location getLocation() {
         return location;
@@ -96,6 +101,10 @@ public class Items {
     public Timestamp getEnds() {
         return ends;
     }
+
+    public Long getEndsUTC() { return endsUTC; }
+
+    public void setEndsUTC(Long endsUTC) { this.endsUTC = endsUTC; }
 
     public void setEnds(Timestamp ends) {
         this.ends = ends;
@@ -125,9 +134,7 @@ public class Items {
         this.firstBid = firstBid;
     }
 
-    public Double getBuyPrice() {
-        return buyPrice;
-    }
+    public Double getBuyPrice() { return buyPrice; }
 
     public void setBuyPrice(Double buyPrice) {
         this.buyPrice = buyPrice;
@@ -147,6 +154,14 @@ public class Items {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void addBid(Bid bid) {
+        this.getBids().add(bid);
+        if (bid.getAmount() > this.getCurrentBid()) {
+            this.setCurrentBid(bid.getAmount());
+            this.setNumberOfBids(this.getNumberOfBids()+1);
+        }
     }
 
     public Items(double buyPrice , double currentBid ,double firstBid  , Timestamp started ,

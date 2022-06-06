@@ -1,5 +1,6 @@
 package gr.uoa.di.tedi.projectbackend.controller;
 
+import gr.uoa.di.tedi.projectbackend.model.BidElement;
 import gr.uoa.di.tedi.projectbackend.model.Items;
 import gr.uoa.di.tedi.projectbackend.service.ItemsService;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,8 @@ public class ItemsController {
     @GetMapping("/items/{id}") // this runs if you send a GET request while on /users/{id} etc
     public ResponseEntity<Items> getItem(@PathVariable Long id) {
         Items item = service.getItem(id);
+        item.setStartedUTC(item.getStarted().getTime());
+        item.setEndsUTC(item.getEnds().getTime());
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
@@ -35,6 +38,13 @@ public class ItemsController {
         Items item = service.addItems(newItem);
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
+
+    @PostMapping("/items/{id}")
+    public ResponseEntity<Items> addBid(@PathVariable Long id, @RequestBody BidElement element) {
+        Items item = service.addBid(id, element.amount, element.bidderName);
+        return new ResponseEntity<>(item, HttpStatus.OK);
+    }
+
     @PutMapping ("/items/{id}")
     public ResponseEntity<Items> updateItem(@RequestBody Items Item) {
         Item = service.updateItem(Item);

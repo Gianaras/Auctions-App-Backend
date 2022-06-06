@@ -1,5 +1,7 @@
 package gr.uoa.di.tedi.projectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Item {
     @Column(name = "id")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "items_id")
     private Items items;

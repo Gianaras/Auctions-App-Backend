@@ -1,5 +1,7 @@
 package gr.uoa.di.tedi.projectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,14 +15,17 @@ public class Bid {
 
     @Column(name = "time")
     private Timestamp time;
+    private Long timeUTC;
 
     @Column(name = "amount")
     private Double amount;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "bidder_id")
     private Bidder bidder;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "items_id")
     private Items items;
@@ -64,6 +69,10 @@ public class Bid {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Long getTimeUTC() { return timeUTC; }
+
+    public void setTimeUTC(Long timeUTC) { this.timeUTC = timeUTC; }
 
     public Bid(){}
 

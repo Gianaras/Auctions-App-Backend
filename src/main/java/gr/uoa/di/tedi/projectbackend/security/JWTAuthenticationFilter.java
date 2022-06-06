@@ -17,11 +17,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.EXPIRATION_TIME;
-import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.HEADER_STRING;
-import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.ADMIN_STRING;
-import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.SECRET;
-import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.TOKEN_PREFIX;
+import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
@@ -70,5 +66,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if (auth.getAuthorities().iterator().next().toString().equals("ROLE_admin"))
             res.addHeader(ADMIN_STRING, "true");
         else res.addHeader(ADMIN_STRING, "false");
+
+        // add username header
+        res.addHeader(USERNAME_STRING, ((User) auth.getPrincipal()).getUsername());
     }
 }
