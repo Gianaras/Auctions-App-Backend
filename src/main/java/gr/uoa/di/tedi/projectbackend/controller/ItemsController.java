@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 // everyone can access items, even without being logged in
@@ -19,13 +20,14 @@ public class ItemsController {
         this.service = service;
     }
 
-    @GetMapping("/items") // this runs if you send a GET request while on /users
+    @GetMapping("/items") // this runs if you send a GET request while on /items
     public ResponseEntity<List<Items>> getAllItems(){
-        List<Items> items = service.getAllItems();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        List<Items> items = service.getOngoingAuctions(now);
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
-    @GetMapping("/items/{id}") // this runs if you send a GET request while on /users/{id} etc
+    @GetMapping("/items/{id}") // this runs if you send a GET request while on /items/{id} etc
     public ResponseEntity<Items> getItem(@PathVariable Long id) {
         Items item = service.getItem(id);
         item.setStartedUTC(item.getStarted().getTime());

@@ -74,6 +74,10 @@ public class Bid {
 
     public void setTimeUTC(Long timeUTC) { this.timeUTC = timeUTC; }
 
+
+    public String bidderName;
+
+
     public Bid(){}
 
     public Bid(Items item, Bidder bidder, double amount, Timestamp time){
@@ -81,6 +85,8 @@ public class Bid {
         this.bidder = bidder;
         this.items = item;
         this.time = time;
+        this.timeUTC = time.getTime();
+        this.bidderName = bidder.getUser().getUsername();
     }
 
 }

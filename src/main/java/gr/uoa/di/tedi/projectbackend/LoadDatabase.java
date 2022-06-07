@@ -50,7 +50,7 @@ class LoadDatabase {
                 userRepository);
 
         Items listing =  new Items(10.0, 0.0,
-                1.0, new Timestamp(now), new Timestamp(now + 600000), 0);
+                1.0, new Timestamp(now), new Timestamp(now + 999999999), 0);
         itemsService.addItems(listing);
 
         Item iceCream = new Item("ice cream", "chocolate",listing);

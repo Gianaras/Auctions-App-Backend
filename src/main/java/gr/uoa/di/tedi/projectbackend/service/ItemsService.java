@@ -8,6 +8,7 @@ import gr.uoa.di.tedi.projectbackend.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -60,5 +61,9 @@ public class ItemsService {
     }
 
     public Items updateItem(Items item) { return itemsRepository.save(item);}
+
+    public List<Items> getOngoingAuctions(Timestamp current){
+        return itemsRepository.getOngoingItems(current);
+    }
 
 }
