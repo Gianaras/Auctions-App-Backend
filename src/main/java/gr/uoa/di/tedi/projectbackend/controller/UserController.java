@@ -47,6 +47,15 @@ class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    // this takes username and returns user
+    // for security purposes, this can be requested only by the user themselves
+    @GetMapping("/getUserFromUsername/{username}")
+    @PreAuthorize("(hasRole('user') || hasRole('admin')) && authentication.name == #username")
+    public ResponseEntity<User> getUserFromUsername(@PathVariable("username") String username) {
+        User user = service.getUserFromUsername(username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @PostMapping("/users/register") // anyone can register
     public ResponseEntity<User> addUser(@RequestBody User newUser) {
         newUser.setAdmin(false);

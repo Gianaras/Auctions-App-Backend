@@ -77,11 +77,12 @@ public class Location {
 
     public Location(){}
 
-    public Location(String country,String location,String longitude,String latitude){
+    public Location(String country, String location, String longitude, String latitude, User user) {
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
         this.location =  location;
+        this.user = user;
     }
 
 }

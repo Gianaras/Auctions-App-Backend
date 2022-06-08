@@ -2,6 +2,7 @@ package gr.uoa.di.tedi.projectbackend.controller;
 
 import gr.uoa.di.tedi.projectbackend.model.BidElement;
 import gr.uoa.di.tedi.projectbackend.model.Items;
+import gr.uoa.di.tedi.projectbackend.model.Seller;
 import gr.uoa.di.tedi.projectbackend.service.ItemsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,19 @@ public class ItemsController {
         Timestamp now = new Timestamp(System.currentTimeMillis());
         List<Items> items = service.getOngoingAuctions(now);
         return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @GetMapping("/itemsOfSeller/{sellerId}")
+    public ResponseEntity<List<Items>> getItemsOfSeller(@PathVariable Long sellerId){
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        List<Items> items = service.getOngoingAuctionsOfSeller(now, sellerId);
+        return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @GetMapping("/sellerOfItems/{itemsId}") // this runs if you send a GET request while on /items
+    public ResponseEntity<Seller> getSellerFromItems(@PathVariable Long itemsId){
+        Seller seller = service.getSellerFromItems(itemsId);
+        return new ResponseEntity<>(seller, HttpStatus.OK);
     }
 
     @GetMapping("/items/{id}") // this runs if you send a GET request while on /items/{id} etc
@@ -52,6 +66,7 @@ public class ItemsController {
         Item = service.updateItem(Item);
         return new ResponseEntity<>(Item, HttpStatus.OK);
     }
+
     @DeleteMapping("/items/{id}")
     public void deleteItem(@PathVariable Long id) { service.deleteItem(id); }
 

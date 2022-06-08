@@ -59,6 +59,13 @@ public class UserService implements UserDetailsService {
         return repository.save(newUser);
     }
 
+    // returns actual user object
+    public User getUserFromUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByUsername(username);
+        if (user == null) throw new UsernameNotFoundException(username);
+        return user;
+    }
+
     @Override // override from UserDetailsService. Returns UserDetails object which includes user roles
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         gr.uoa.di.tedi.projectbackend.model.User applicationUser = repository.findByUsername(username);

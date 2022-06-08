@@ -1,9 +1,6 @@
 package gr.uoa.di.tedi.projectbackend.service;
 import gr.uoa.di.tedi.projectbackend.handling.ItemNotFoundException;
-import gr.uoa.di.tedi.projectbackend.model.Bid;
-import gr.uoa.di.tedi.projectbackend.model.Item;
-import gr.uoa.di.tedi.projectbackend.model.Items;
-import gr.uoa.di.tedi.projectbackend.model.User;
+import gr.uoa.di.tedi.projectbackend.model.*;
 import gr.uoa.di.tedi.projectbackend.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,4 +63,11 @@ public class ItemsService {
         return itemsRepository.getOngoingItems(current);
     }
 
+    public List<Items> getOngoingAuctionsOfSeller(Timestamp current, Long sellerId) {
+        return itemsRepository.getOngoingItemsOfSeller(current, sellerId);
+    }
+
+    public Seller getSellerFromItems(Long itemsId) {
+        return itemsRepository.getSellerFromItemsId(itemsId);
+    }
 }

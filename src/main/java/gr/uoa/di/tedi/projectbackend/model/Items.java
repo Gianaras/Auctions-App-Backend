@@ -1,5 +1,6 @@
 package gr.uoa.di.tedi.projectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -44,6 +45,7 @@ public class Items {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
@@ -165,13 +167,15 @@ public class Items {
     }
 
     public Items(double buyPrice , double currentBid ,double firstBid  , Timestamp started ,
-                 Timestamp ends,int numberOfBids){
+                 Timestamp ends,int numberOfBids, Seller seller, Location location){
         this.buyPrice=buyPrice;
         this.currentBid=currentBid;
         this.firstBid=firstBid;
         this.started=started;
         this.ends=ends;
         this.numberOfBids=numberOfBids;
+        this.seller = seller;
+        this.location = location;
     }
 
     public Items(){}

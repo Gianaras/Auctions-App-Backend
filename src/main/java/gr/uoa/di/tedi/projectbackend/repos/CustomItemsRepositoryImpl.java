@@ -1,6 +1,7 @@
 package gr.uoa.di.tedi.projectbackend.repos;
 
 import gr.uoa.di.tedi.projectbackend.model.Items;
+import gr.uoa.di.tedi.projectbackend.model.Seller;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,5 +21,20 @@ public class CustomItemsRepositoryImpl implements CustomItemsRepository{
         Query query = entityManager.createQuery("SELECT items FROM Items items  WHERE items.ends >  :current ");
         query.setParameter("current",current);
         return query.getResultList();
+    }
+
+    public List<Items> getOngoingItemsOfSeller(Timestamp current, Long sellerId) {
+        Query query = entityManager.createQuery("SELECT items FROM Seller seller, Items items " +
+                        "WHERE seller.id = items.seller.id AND seller.id = :sellerId AND items.ends > :current");
+        query.setParameter("sellerId", sellerId);
+        query.setParameter("current",current);
+        return query.getResultList();
+    }
+
+    public Seller getSellerFromItemsId(Long itemsId) {
+        Query query = entityManager.createQuery("SELECT seller FROM Seller seller, Items items " +
+                "WHERE seller.id = items.seller.id AND items.id = :itemsId");
+        query.setParameter("itemsId", itemsId);
+        return (Seller) query.getResultList().get(0);
     }
 }

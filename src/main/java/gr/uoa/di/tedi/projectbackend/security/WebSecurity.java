@@ -40,7 +40,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 // The paths on the line below can be accessed by ANYONE without needing to log in
-                .antMatchers("/items", "/users/register", "/items/*")
+                .antMatchers("/items", "/getUserFromUsername", "/users/register", "/items/*",
+                        "/itemsOfSeller/*", "/sellerOfItems/*")
                 .permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated()
