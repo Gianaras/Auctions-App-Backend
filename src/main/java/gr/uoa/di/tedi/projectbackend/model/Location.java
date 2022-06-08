@@ -1,5 +1,7 @@
 package gr.uoa.di.tedi.projectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,6 +26,7 @@ public class Location {
     @Column(name = "location")
     private String location;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "location", orphanRemoval = true)
     private User user;
 

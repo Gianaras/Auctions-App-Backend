@@ -3,6 +3,7 @@ package gr.uoa.di.tedi.projectbackend;
 import gr.uoa.di.tedi.projectbackend.model.*;
 import gr.uoa.di.tedi.projectbackend.repos.*;
 import gr.uoa.di.tedi.projectbackend.service.ItemsService;
+import gr.uoa.di.tedi.projectbackend.service.MessageService;
 import gr.uoa.di.tedi.projectbackend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,7 @@ import java.util.Set;
 class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(ItemsRepository itemsRepository, ItemRepository itemRepository,
+                                   MessageRepository messageRepository,
                                    BidRepository bidRepository, UserRepository userRepository,
                                    LocationRepository locationRepository, SellerRepository sellerRepository,
                                    BidderRepository bidderRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -77,6 +79,10 @@ class LoadDatabase {
         itemRepository.save(playstation);
 
         itemsService.addNewItem(listing2, playstation);
+
+        MessageService messageService =  new MessageService(messageRepository,userRepository);
+
+        messageService.addMessage("Gianarg","MichaelCaineReal","Hello!");
 
         return args -> {
             log.info("Preloading testing data");

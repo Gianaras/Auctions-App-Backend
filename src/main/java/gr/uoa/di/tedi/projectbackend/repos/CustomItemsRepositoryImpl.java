@@ -18,7 +18,7 @@ public class CustomItemsRepositoryImpl implements CustomItemsRepository{
     EntityManager entityManager;
 
     public List<Items> getOngoingItems(Timestamp current){
-        Query query = entityManager.createQuery("SELECT items FROM Items items  WHERE items.ends >  :current ");
+        Query query = entityManager.createQuery("SELECT items FROM Items items  WHERE items.ends >  :current AND items.currentBid < items.buyPrice");
         query.setParameter("current",current);
         return query.getResultList();
     }

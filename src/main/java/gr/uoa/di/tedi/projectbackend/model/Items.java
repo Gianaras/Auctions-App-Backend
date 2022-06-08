@@ -45,8 +45,8 @@ public class Items {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
