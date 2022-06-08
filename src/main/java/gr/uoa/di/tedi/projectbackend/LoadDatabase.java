@@ -45,6 +45,11 @@ class LoadDatabase {
                 "Michael", "Caine", "MCaine@mail.com", "0123456789",
                 "InYourHouse 69", "England", "Liverpool", false, false));
 
+        userService.addUser(new User("MichaelCaineReal2",
+                bCryptPasswordEncoder.encode("innit123"),
+                "Michael", "Caine", "MCadine@mail.com", "0123456789",
+                "InYourHouse 69", "England", "Liverpool", false, false));
+
         // add locations
         Location location = new Location("United Kingdom", "London", "-0.118092", "51.509865",
                 userRepository.findByUsername("MichaelCaineReal"));
@@ -72,7 +77,7 @@ class LoadDatabase {
         // add second item
         Items listing2 = new Items(700, 0.0, 350, new Timestamp(now),
                 new Timestamp(now + 999999999), 0,
-                userRepository.findByUsername("Gianarg").getSeller(), location2);
+                userRepository.findByUsername("MichaelCaineReal2").getSeller(), location2);
         itemsService.addItems(listing2);
 
         Item playstation = new Item("PlayStation 5", "Play has no limits", listing2);
@@ -83,6 +88,8 @@ class LoadDatabase {
         MessageService messageService =  new MessageService(messageRepository,userRepository);
 
         messageService.addMessage("Gianarg","MichaelCaineReal","Hello!");
+        messageService.addMessage("MichaelCaineReal","Gianarg","Wassup my g.");
+
 
         return args -> {
             log.info("Preloading testing data");

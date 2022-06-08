@@ -2,6 +2,7 @@ package gr.uoa.di.tedi.projectbackend.repos;
 
 import gr.uoa.di.tedi.projectbackend.model.Items;
 import gr.uoa.di.tedi.projectbackend.model.Message;
+import gr.uoa.di.tedi.projectbackend.model.MessageElement;
 import gr.uoa.di.tedi.projectbackend.model.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -25,10 +26,19 @@ public class CustomMessageRepositoryImpl implements CustomMessageRepository{
     EntityManager entityManager;
 
 
-    public List<Message> getUserReceived(String username){
+    public List<MessageElement> getUserReceived(String username){
         Query query = entityManager.createQuery("SELECT message FROM Message message WHERE message.receiver.username = :username ");
         query.setParameter("username",username);
-        return query.getResultList();
+        List<Message> messages = query.getResultList();
+        List<MessageElement> ret = new ArrayList<>();
+        for(Message message:messages){
+            MessageElement temp =  new MessageElement();
+            temp.receiver = message.getReceiver().getUsername();
+            temp.sender = message.getSender().getUsername();
+            temp.content = message.getMessage();
+            ret.add(temp);
+        }
+        return ret;
     }
 
 

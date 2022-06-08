@@ -3,6 +3,7 @@ package gr.uoa.di.tedi.projectbackend.service;
 
 import gr.uoa.di.tedi.projectbackend.handling.MessageNotFoundException;
 import gr.uoa.di.tedi.projectbackend.model.Message;
+import gr.uoa.di.tedi.projectbackend.model.MessageElement;
 import gr.uoa.di.tedi.projectbackend.model.User;
 import gr.uoa.di.tedi.projectbackend.repos.MessageRepository;
 import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
@@ -42,7 +43,7 @@ public class MessageService {
 
     public List<Message> getAllMessages() { return repository.findAll(); }
 
-    public List<Message> getUserReceived(String username){return repository.getUserReceived(username);}
+    public List<MessageElement> getUserReceived(String username){return repository.getUserReceived(username);}
 
     public List<User> getRelevantUsers(String username){return  repository.getRelevantUsers(username);}
 

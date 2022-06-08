@@ -22,10 +22,22 @@ public class MessageController {
     @GetMapping("/messages/inbox/{username}")
     //only the user himself and admins can see received messages
     @PreAuthorize("(hasRole('user') && authentication.name == #username ) || hasRole('admin') ")
-    public ResponseEntity<List<Message>> getUserReceived(@PathVariable String username){
-        List<Message> messages = service.getUserReceived(username);
+    public ResponseEntity<List<MessageElement>> getUserReceived(@PathVariable String username){
+        List<MessageElement> messages = service.getUserReceived(username);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
+
+
+
+
+    @GetMapping("/messages/send/{username}")
+    //only the user himself and admins can see received messages
+    @PreAuthorize("(hasRole('user') && authentication.name == #username ) || hasRole('admin') ")
+    public ResponseEntity<List<User>> getRelevantUsers(@PathVariable String username){
+        List<User> users = service.getRelevantUsers(username);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
 
 
 
@@ -38,6 +50,7 @@ public class MessageController {
                 service.addMessage(sender,receiver,messageElement.content);
                 messageElement.receiver=receiver;
                 messageElement.sender=sender;
+                System.out.println("Message successfuly sent!");
                 return new ResponseEntity<>(messageElement,HttpStatus.OK);
             }
         }
