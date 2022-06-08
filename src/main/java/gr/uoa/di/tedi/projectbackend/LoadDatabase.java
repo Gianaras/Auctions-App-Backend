@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ import java.util.Set;
 class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(ItemsRepository itemsRepository, ItemRepository itemRepository,
-                                   MessageRepository messageRepository,
+                                   MessageRepository messageRepository, CategoryRepository categoryRepository,
                                    BidRepository bidRepository, UserRepository userRepository,
                                    LocationRepository locationRepository, SellerRepository sellerRepository,
                                    BidderRepository bidderRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -29,7 +30,7 @@ class LoadDatabase {
 
         UserService userService =  new UserService(userRepository, sellerRepository, bidderRepository);
         ItemsService itemsService = new ItemsService(itemsRepository, itemRepository, bidRepository,
-                userRepository);
+                userRepository, categoryRepository);
 
         // if no admin exists, add one
         if (userRepository.getAdmin().isEmpty()) {
@@ -59,10 +60,36 @@ class LoadDatabase {
                 userRepository.findByUsername("Gianarg"));
         locationRepository.save(location2);
 
+        // add categories if they don't exist
+        Category foodCategory = new Category("food");
+        Category toysCategory = new Category("toys");
+        Category electronicsCategory = new Category("electronics");
+        Category booksCategory = new Category("books");
+        Category moviesCategory = new Category("movies");
+        Category videoGamesCategory = new Category("video games");
+        Category clothingCategory = new Category("clothing");
+        Category footwearCategory = new Category("footwear");
+        Category furnitureCategory = new Category("furniture");
+        Category musicCategory = new Category("music");
+
+        if (categoryRepository.count() == 0) {
+            categoryRepository.save(foodCategory);
+            categoryRepository.save(toysCategory);
+            categoryRepository.save(electronicsCategory);
+            categoryRepository.save(booksCategory);
+            categoryRepository.save(moviesCategory);
+            categoryRepository.save(videoGamesCategory);
+            categoryRepository.save(clothingCategory);
+            categoryRepository.save(footwearCategory);
+            categoryRepository.save(furnitureCategory);
+            categoryRepository.save(musicCategory);
+        }
+
         // add item
         Items listing = new Items(10.0, 0.0, 1.0, new Timestamp(now),
                 new Timestamp(now + 999999999), 0,
-                userRepository.findByUsername("MichaelCaineReal").getSeller(), location);
+                userRepository.findByUsername("MichaelCaineReal").getSeller(),
+                location, new HashSet<>(Arrays.asList(foodCategory)));
         itemsService.addItems(listing);
 
         Item iceCream = new Item("ice cream", "chocolate", listing);
@@ -77,7 +104,8 @@ class LoadDatabase {
         // add second item
         Items listing2 = new Items(700, 0.0, 350, new Timestamp(now),
                 new Timestamp(now + 999999999), 0,
-                userRepository.findByUsername("MichaelCaineReal2").getSeller(), location2);
+                userRepository.findByUsername("MichaelCaineReal2").getSeller(),
+                location2, new HashSet<>(Arrays.asList(videoGamesCategory, electronicsCategory)));
         itemsService.addItems(listing2);
 
         Item playstation = new Item("PlayStation 5", "Play has no limits", listing2);
@@ -85,15 +113,13 @@ class LoadDatabase {
 
         itemsService.addNewItem(listing2, playstation);
 
+        // messages
         MessageService messageService =  new MessageService(messageRepository,userRepository);
-
         messageService.addMessage("Gianarg","MichaelCaineReal","Hello!");
         messageService.addMessage("MichaelCaineReal","Gianarg","Wassup my g.");
 
 
-        return args -> {
-            log.info("Preloading testing data");
-        };
+        return args -> log.info("Preloading testing data");
     }
 }
 

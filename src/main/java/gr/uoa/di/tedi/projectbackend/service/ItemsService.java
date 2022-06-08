@@ -1,4 +1,5 @@
 package gr.uoa.di.tedi.projectbackend.service;
+import gr.uoa.di.tedi.projectbackend.handling.CategoryNotFoundException;
 import gr.uoa.di.tedi.projectbackend.handling.ItemNotFoundException;
 import gr.uoa.di.tedi.projectbackend.model.*;
 import gr.uoa.di.tedi.projectbackend.repos.*;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -15,18 +17,28 @@ public class ItemsService {
     private final ItemRepository itemRepository;
     private final BidRepository bidRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     public ItemsService(ItemsRepository itemsRepository, ItemRepository itemRepository, BidRepository bidRepository,
-                        UserRepository userRepository) {
+                        UserRepository userRepository, CategoryRepository categoryRepository) {
         this.itemsRepository = itemsRepository;
         this.itemRepository = itemRepository;
         this.bidRepository = bidRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public Items addItems(Items newItems) {
-        return itemsRepository.save(newItems);
+        Items items = itemsRepository.save(newItems);
+        for (Category categoryTmp : newItems.getCategories()) {
+            String categoryId = categoryTmp.getId(); // get category name of input category
+            Category category = categoryRepository.findById(categoryId) // use id to get actual category in db
+                            .orElseThrow(() -> new CategoryNotFoundException(categoryId));
+            category.getItems().add(newItems);
+            categoryRepository.save(category);
+        }
+        return items;
     }
 
     public Items addNewItem(Items items, Item newItem){
@@ -39,18 +51,15 @@ public class ItemsService {
         Items items = getItem(itemsId);
         User user = userRepository.findByUsername(bidderName);
         Bid bid = new Bid(items, user.getBidder(), amount, new Timestamp(now));
-        System.out.println("user get bidder " + user.getBidder().getUser().getId());
         bidRepository.save(bid);
-        System.out.println("saved bid");
 
         items.addBid(bid);
-        System.out.println("added bid to items");
         return itemsRepository.save(items);
     }
 
     public void deleteItem(Long id) { itemsRepository.deleteById(id); }
 
-    public List<Items> getAllItems(){return itemsRepository.findAll();}
+    public List<Items> getAllItems(){ return itemsRepository.findAll(); }
 
     public Items getItem(Long id){
         return itemsRepository.findById(id)

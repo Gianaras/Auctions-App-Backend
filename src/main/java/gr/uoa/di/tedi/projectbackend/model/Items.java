@@ -50,7 +50,8 @@ public class Items {
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
-    @ManyToMany(mappedBy = "items")
+    @ManyToMany(fetch = FetchType.EAGER,
+            mappedBy = "items")
     private Set<Category> categories = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "items", orphanRemoval = true)
@@ -167,7 +168,7 @@ public class Items {
     }
 
     public Items(double buyPrice , double currentBid ,double firstBid  , Timestamp started ,
-                 Timestamp ends,int numberOfBids, Seller seller, Location location){
+                 Timestamp ends,int numberOfBids, Seller seller, Location location, Set<Category> categories){
         this.buyPrice=buyPrice;
         this.currentBid=currentBid;
         this.firstBid=firstBid;
@@ -176,6 +177,7 @@ public class Items {
         this.numberOfBids=numberOfBids;
         this.seller = seller;
         this.location = location;
+        this.categories = categories;
     }
 
     public Items(){}

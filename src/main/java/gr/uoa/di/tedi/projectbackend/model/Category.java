@@ -13,7 +13,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinTable(name = "item_belongs_to_category",
             joinColumns = @JoinColumn(name = "category_id"),
