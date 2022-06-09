@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ItemsService {
@@ -18,19 +17,25 @@ public class ItemsService {
     private final BidRepository bidRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
     public ItemsService(ItemsRepository itemsRepository, ItemRepository itemRepository, BidRepository bidRepository,
-                        UserRepository userRepository, CategoryRepository categoryRepository) {
+                        UserRepository userRepository, CategoryRepository categoryRepository,
+                        LocationRepository locationRepository) {
         this.itemsRepository = itemsRepository;
         this.itemRepository = itemRepository;
         this.bidRepository = bidRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
+        this.locationRepository = locationRepository;
     }
 
     public Items addItems(Items newItems) {
-        Items items = itemsRepository.save(newItems);
+        locationRepository.save(newItems.getLocation()); // save new location
+        itemsRepository.save(newItems); // save new items
+
+        // apply categories
         for (Category categoryTmp : newItems.getCategories()) {
             String categoryId = categoryTmp.getId(); // get category name of input category
             Category category = categoryRepository.findById(categoryId) // use id to get actual category in db
@@ -38,7 +43,15 @@ public class ItemsService {
             category.getItems().add(newItems);
             categoryRepository.save(category);
         }
-        return items;
+
+        // add item objects
+        Set<Item> itemsTmp = new HashSet<>(newItems.getItems());
+        for (Item item : itemsTmp) {
+            Item newItem = new Item(item.getName(), item.getDescription(), newItems);
+            itemRepository.save(newItem);
+            addNewItem(newItems, newItem);
+        }
+        return newItems;
     }
 
     public Items addNewItem(Items items, Item newItem){

@@ -6,6 +6,7 @@ import gr.uoa.di.tedi.projectbackend.model.Seller;
 import gr.uoa.di.tedi.projectbackend.service.ItemsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -50,24 +51,28 @@ public class ItemsController {
     }
 
     @PostMapping("/items")
+    @PreAuthorize("hasRole('user') || hasRole('admin')")
     public ResponseEntity<Items> addItem(@RequestBody Items newItem) {
         Items item = service.addItems(newItem);
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
     @PostMapping("/items/{id}")
+    @PreAuthorize("hasRole('user') || hasRole('admin')")
     public ResponseEntity<Items> addBid(@PathVariable Long id, @RequestBody BidElement element) {
         Items item = service.addBid(id, element.amount, element.bidderName);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @PutMapping ("/items/{id}")
+    @PreAuthorize("hasRole('user') || hasRole('admin')")
     public ResponseEntity<Items> updateItem(@RequestBody Items Item) {
         Item = service.updateItem(Item);
         return new ResponseEntity<>(Item, HttpStatus.OK);
     }
 
     @DeleteMapping("/items/{id}")
+    @PreAuthorize("hasRole('user') || hasRole('admin')")
     public void deleteItem(@PathVariable Long id) { service.deleteItem(id); }
 
 }

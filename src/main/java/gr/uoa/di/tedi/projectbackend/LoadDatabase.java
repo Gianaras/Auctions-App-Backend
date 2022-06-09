@@ -30,7 +30,7 @@ class LoadDatabase {
 
         UserService userService =  new UserService(userRepository, sellerRepository, bidderRepository);
         ItemsService itemsService = new ItemsService(itemsRepository, itemRepository, bidRepository,
-                userRepository, categoryRepository);
+                userRepository, categoryRepository, locationRepository);
 
         // if no admin exists, add one
         if (userRepository.getAdmin().isEmpty()) {
@@ -54,11 +54,9 @@ class LoadDatabase {
         // add locations
         Location location = new Location("United Kingdom", "London", "-0.118092", "51.509865",
                 userRepository.findByUsername("MichaelCaineReal"));
-        locationRepository.save(location);
 
         Location location2 = new Location("Greece", "Athens", "23.727539", "37.983810",
                 userRepository.findByUsername("Gianarg"));
-        locationRepository.save(location2);
 
         // add categories if they don't exist
         Category foodCategory = new Category("food");

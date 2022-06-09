@@ -1,10 +1,12 @@
 package gr.uoa.di.tedi.projectbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -46,7 +48,7 @@ public class Items {
     private Location location;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
@@ -73,6 +75,7 @@ public class Items {
         this.categories = categories;
     }
 
+    @JsonIgnore
     public Seller getSeller() {
         return seller;
     }
