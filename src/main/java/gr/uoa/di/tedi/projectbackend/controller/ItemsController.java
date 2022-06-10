@@ -66,9 +66,9 @@ public class ItemsController {
 
     @PutMapping ("/items/{id}")
     @PreAuthorize("hasRole('user') || hasRole('admin')")
-    public ResponseEntity<Items> updateItem(@RequestBody Items Item) {
-        Item = service.updateItem(Item);
-        return new ResponseEntity<>(Item, HttpStatus.OK);
+    public ResponseEntity<Items> updateItem(@RequestBody Items items, @PathVariable Long id) {
+        items = service.updateItem(id, items);
+        return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @DeleteMapping("/items/{id}")

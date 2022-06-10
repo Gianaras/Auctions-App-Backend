@@ -70,16 +70,36 @@ public class ItemsService {
         return itemsRepository.save(items);
     }
 
-    public void deleteItem(Long id) { itemsRepository.deleteById(id); }
+    public void deleteItem(Long id) {
+        Items items = getItem(id);
 
-    public List<Items> getAllItems(){ return itemsRepository.findAll(); }
+        // remove relations with categories
+        for (Category category : items.getCategories()) {
+            category.getItems().remove(items);
+            categoryRepository.save(category);
+        }
 
-    public Items getItem(Long id){
+        // automatically deletes Items of auction as well
+        itemsRepository.deleteById(id);
+    }
+
+    public List<Items> getAllItems() { return itemsRepository.findAll(); }
+
+    public Items getItem(Long id) {
         return itemsRepository.findById(id)
             .orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    public Items updateItem(Items item) { return itemsRepository.save(item);}
+    public Items updateItem(Long itemsId, Items items) {
+        deleteItem(itemsId); // delete previous
+        Items newItems = addItems(items); // update
+
+        // remove garbage null items of return value
+        Set<Item> itemsTmp = new HashSet<>(newItems.getItems());
+        for (Item item : itemsTmp)
+            if (item.getId() == null) newItems.getItems().remove(item);
+        return newItems;
+    }
 
     public List<Items> getOngoingAuctions(Timestamp current){
         return itemsRepository.getOngoingItems(current);

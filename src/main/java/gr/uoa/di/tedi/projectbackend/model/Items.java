@@ -172,12 +172,12 @@ public class Items {
 
     public Items(double buyPrice , double currentBid ,double firstBid  , Timestamp started ,
                  Timestamp ends,int numberOfBids, Seller seller, Location location, Set<Category> categories){
-        this.buyPrice=buyPrice;
-        this.currentBid=currentBid;
-        this.firstBid=firstBid;
-        this.started=started;
-        this.ends=ends;
-        this.numberOfBids=numberOfBids;
+        this.buyPrice = buyPrice;
+        this.currentBid = currentBid;
+        this.firstBid = firstBid;
+        this.started = started;
+        this.ends = ends;
+        this.numberOfBids = numberOfBids;
         this.seller = seller;
         this.location = location;
         this.categories = categories;

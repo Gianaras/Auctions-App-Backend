@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -35,6 +36,8 @@ public class CustomItemsRepositoryImpl implements CustomItemsRepository{
         Query query = entityManager.createQuery("SELECT seller FROM Seller seller, Items items " +
                 "WHERE seller.id = items.seller.id AND items.id = :itemsId");
         query.setParameter("itemsId", itemsId);
+
+        if (query.getResultList().isEmpty()) return null;
         return (Seller) query.getResultList().get(0);
     }
 }
