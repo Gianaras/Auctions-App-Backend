@@ -3,6 +3,8 @@ package gr.uoa.di.tedi.projectbackend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "item")
@@ -22,6 +24,17 @@ public class Item {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "item", orphanRemoval = true)
+    private Set<Image> images = new LinkedHashSet<>();
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
 
     public Item() { }
 
