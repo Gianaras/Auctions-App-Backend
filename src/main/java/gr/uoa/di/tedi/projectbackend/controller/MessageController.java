@@ -27,9 +27,6 @@ public class MessageController {
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
-
-
-
     @GetMapping("/messages/send/{username}")
     //only the user himself and admins can see received messages
     @PreAuthorize("(hasRole('user') && authentication.name == #username ) || hasRole('admin') ")
@@ -37,9 +34,6 @@ public class MessageController {
         List<User> users = service.getRelevantUsers(username);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
-
-
 
     @PostMapping("/messages/send/{sender}/{receiver}")
     @PreAuthorize("(hasRole('user') && authentication.name == #sender) || hasRole('admin') ")                          //message content

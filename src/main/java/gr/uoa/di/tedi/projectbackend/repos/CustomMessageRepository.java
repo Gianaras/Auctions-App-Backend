@@ -11,4 +11,5 @@ public interface CustomMessageRepository {
 
     List<MessageElement> getUserReceived(String username);
     List<User> getRelevantUsers(String username);
+    List<Message> getUserRelated(String username);
 }

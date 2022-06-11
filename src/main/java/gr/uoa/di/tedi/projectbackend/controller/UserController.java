@@ -56,6 +56,13 @@ class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    // checks if user with username exists
+    @GetMapping("/userExists/{username}")
+    public ResponseEntity<Boolean> getUserExists(@PathVariable("username") String username) {
+        Boolean exists = service.usernameExists(username);
+        return new ResponseEntity<>(exists, HttpStatus.OK);
+    }
+
     @PostMapping("/users/register") // anyone can register
     public ResponseEntity<User> addUser(@RequestBody User newUser) {
         newUser.setAdmin(false);

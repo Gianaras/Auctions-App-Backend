@@ -28,7 +28,8 @@ class LoadDatabase {
                                    BidderRepository bidderRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         long now = System.currentTimeMillis();
 
-        UserService userService =  new UserService(userRepository, sellerRepository, bidderRepository);
+        UserService userService =  new UserService(userRepository, sellerRepository, bidderRepository,
+                categoryRepository, messageRepository);
         ItemsService itemsService = new ItemsService(itemsRepository, itemRepository, bidRepository,
                 userRepository, categoryRepository, locationRepository);
 

@@ -41,6 +41,13 @@ public class CustomMessageRepositoryImpl implements CustomMessageRepository{
         return ret;
     }
 
+    public List<Message> getUserRelated(String username){
+        Query query = entityManager.createQuery("SELECT message FROM Message message WHERE message.receiver.username = :username " +
+                "OR message.sender.username =: username");
+        query.setParameter("username",username);
+        return query.getResultList();
+    }
+
 
     //a user is "relevant" with another user if they have won one of the users auctions or vice versa
     public List<User> getRelevantUsers(String username){

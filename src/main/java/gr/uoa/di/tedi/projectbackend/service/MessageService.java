@@ -45,6 +45,6 @@ public class MessageService {
 
     public List<MessageElement> getUserReceived(String username){return repository.getUserReceived(username);}
 
-    public List<User> getRelevantUsers(String username){return  repository.getRelevantUsers(username);}
+    public List<User> getRelevantUsers(String username){return repository.getRelevantUsers(username);}
 
 }

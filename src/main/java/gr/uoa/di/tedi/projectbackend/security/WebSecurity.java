@@ -41,7 +41,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 // The paths on the line below can be accessed by ANYONE without needing to log in
                 .antMatchers("/items", "/getUserFromUsername", "/users/register", "/items/*",
-                        "/itemsOfSeller/*", "/sellerOfItems/*")
+                        "/itemsOfSeller/*", "/sellerOfItems/*", "/userExists/*")
                 .permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated()

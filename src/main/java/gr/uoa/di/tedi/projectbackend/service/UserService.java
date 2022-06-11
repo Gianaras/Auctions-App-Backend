@@ -1,12 +1,11 @@
 package gr.uoa.di.tedi.projectbackend.service;
 
+import gr.uoa.di.tedi.projectbackend.handling.BidderNotFoundException;
+import gr.uoa.di.tedi.projectbackend.handling.CategoryNotFoundException;
+import gr.uoa.di.tedi.projectbackend.handling.SellerNotFoundException;
 import gr.uoa.di.tedi.projectbackend.handling.UserNotFoundException;
-import gr.uoa.di.tedi.projectbackend.model.Bidder;
-import gr.uoa.di.tedi.projectbackend.model.Seller;
-import gr.uoa.di.tedi.projectbackend.model.User;
-import gr.uoa.di.tedi.projectbackend.repos.BidderRepository;
-import gr.uoa.di.tedi.projectbackend.repos.SellerRepository;
-import gr.uoa.di.tedi.projectbackend.repos.UserRepository;
+import gr.uoa.di.tedi.projectbackend.model.*;
+import gr.uoa.di.tedi.projectbackend.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 // the service uses the repository
@@ -25,12 +25,17 @@ public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final BidderRepository bidderRepo;
     private final SellerRepository sellerRepo;
+    private final CategoryRepository categoryRepo;
+    private final MessageRepository messageRepo;
 
     @Autowired
-    public UserService(UserRepository repository, SellerRepository sellerRepo, BidderRepository bidderRepo) {
+    public UserService(UserRepository repository, SellerRepository sellerRepo, BidderRepository bidderRepo,
+                       CategoryRepository categoryRepo, MessageRepository messageRepo) {
         this.sellerRepo = sellerRepo;
         this.bidderRepo = bidderRepo;
         this.repository = repository;
+        this.categoryRepo = categoryRepo;
+        this.messageRepo = messageRepo;
     }
 
     public List<User> getAllUsers() { return repository.findAll(); }
@@ -42,9 +47,35 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUserLike(String name) { return repository.getUsernameLike(name); }
 
-    public void deleteUser(Long id) { repository.deleteById(id); }
+    public void deleteUser(Long id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
-    public User updateUser(User user) { return repository.save(user); }
+        // delete items of user
+        Set<Items> allItems = user.getSeller().getItems();
+        for (Items items : allItems) {
+            for (Category category : items.getCategories()) {
+                category.getItems().remove(items);
+                categoryRepo.save(category);
+            }
+        }
+
+        // delete messages of user
+        List<Message> messages = messageRepo.getUserRelated(user.getUsername());
+        messageRepo.deleteAll(messages);
+
+        // delete seller of user (also deletes bidder and user)
+        sellerRepo.deleteById(user.getSeller().getId());
+    }
+
+    // only activates user
+    public User updateUser(User user) {
+        User realUser = repository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException(user.getId()));
+        realUser.setActivated(true);
+        repository.save(realUser);
+        return realUser;
+    }
 
     public User addUser(User newUser) {
         //Bidder and seller relations are created whenever a new user is created
@@ -64,6 +95,12 @@ public class UserService implements UserDetailsService {
         User user = repository.findByUsername(username);
         if (user == null) throw new UsernameNotFoundException(username);
         return user;
+    }
+
+    // check if username exists
+    public Boolean usernameExists(String username) {
+        User user = repository.findByUsername(username);
+        return user != null;
     }
 
     @Override // override from UserDetailsService. Returns UserDetails object which includes user roles
