@@ -23,7 +23,7 @@ class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(ItemsRepository itemsRepository, ItemRepository itemRepository,
                                    MessageRepository messageRepository, CategoryRepository categoryRepository,
-                                   BidRepository bidRepository, UserRepository userRepository,
+                                   BidRepository bidRepository, UserRepository userRepository,ImageRepository imageRepository,
                                    LocationRepository locationRepository, SellerRepository sellerRepository,
                                    BidderRepository bidderRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         long now = System.currentTimeMillis();
@@ -31,7 +31,7 @@ class LoadDatabase {
         UserService userService =  new UserService(userRepository, sellerRepository, bidderRepository,
                 categoryRepository, messageRepository, locationRepository);
         ItemsService itemsService = new ItemsService(itemsRepository, itemRepository, bidRepository,
-                userRepository, categoryRepository, locationRepository);
+                userRepository, categoryRepository, locationRepository,imageRepository);
 
         // add locations
         Location location = new Location("United Kingdom", "London", "-0.118092", "51.509865");

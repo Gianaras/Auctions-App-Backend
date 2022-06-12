@@ -19,16 +19,19 @@ public class ItemsService {
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
 
+    private final ImageRepository imageRepository;
+
     @Autowired
     public ItemsService(ItemsRepository itemsRepository, ItemRepository itemRepository, BidRepository bidRepository,
                         UserRepository userRepository, CategoryRepository categoryRepository,
-                        LocationRepository locationRepository) {
+                        LocationRepository locationRepository,ImageRepository imageRepository) {
         this.itemsRepository = itemsRepository;
         this.itemRepository = itemRepository;
         this.bidRepository = bidRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.locationRepository = locationRepository;
+        this.imageRepository = imageRepository;
     }
 
     public Items addItems(Items newItems) {
@@ -49,6 +52,12 @@ public class ItemsService {
         for (Item item : itemsTmp) {
             Item newItem = new Item(item.getName(), item.getDescription(), newItems);
             itemRepository.save(newItem);
+            System.out.println("aaaaaaaaaaaaaaa");
+            for(Image image:item.getImages()){
+                Image newImage = new Image(newItem,image.getImage_data(),image.getImage_name());
+                System.out.println("test2 "+image.getImage_data());
+                imageRepository.save(newImage);
+            }
             addNewItem(newItems, newItem);
         }
         return newItems;

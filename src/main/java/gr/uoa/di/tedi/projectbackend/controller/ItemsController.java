@@ -1,8 +1,6 @@
 package gr.uoa.di.tedi.projectbackend.controller;
 
-import gr.uoa.di.tedi.projectbackend.model.BidElement;
-import gr.uoa.di.tedi.projectbackend.model.Items;
-import gr.uoa.di.tedi.projectbackend.model.Seller;
+import gr.uoa.di.tedi.projectbackend.model.*;
 import gr.uoa.di.tedi.projectbackend.service.ItemsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 // everyone can access items, even without being logged in
@@ -47,12 +46,19 @@ public class ItemsController {
         Items item = service.getItem(id);
         item.setStartedUTC(item.getStarted().getTime());
         item.setEndsUTC(item.getEnds().getTime());
+        for(Item item1:item.getItems()){
+            for(Image image:item1.getImages()){
+                System.out.println(new String(image.getImage_data()));
+            }
+        }
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @PostMapping("/items")
     @PreAuthorize("hasRole('user') || hasRole('admin')")
     public ResponseEntity<Items> addItem(@RequestBody Items newItem) {
+        System.out.println(newItem);
+       // Items item =  new Items();
         Items item = service.addItems(newItem);
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
