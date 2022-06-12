@@ -16,12 +16,8 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
-    private String address;
-    private String country;
-    private String city;
     private boolean admin;
     private boolean activated;
-
 
     @OneToOne(mappedBy = "user", orphanRemoval = true)
     private Bidder bidder;
@@ -61,17 +57,15 @@ public class User {
     public User() {}
 
     public User(String username, String password, String fName, String lName, String email, String phone,
-                String address, String country, String city, boolean admin, boolean activated) {
+                boolean admin, boolean activated, Location location) {
         this.username = username;
         this.password = password;
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
         this.phone = phone;
-        this.address = address;
-        this.country = country;
-        this.city = city;
         this.admin = admin;
         this.activated = activated;
+        this.location = location;
     }
 }

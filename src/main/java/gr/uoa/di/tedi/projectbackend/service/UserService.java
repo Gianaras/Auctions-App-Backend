@@ -1,8 +1,5 @@
 package gr.uoa.di.tedi.projectbackend.service;
 
-import gr.uoa.di.tedi.projectbackend.handling.BidderNotFoundException;
-import gr.uoa.di.tedi.projectbackend.handling.CategoryNotFoundException;
-import gr.uoa.di.tedi.projectbackend.handling.SellerNotFoundException;
 import gr.uoa.di.tedi.projectbackend.handling.UserNotFoundException;
 import gr.uoa.di.tedi.projectbackend.model.*;
 import gr.uoa.di.tedi.projectbackend.repos.*;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 // the service uses the repository
@@ -27,15 +23,18 @@ public class UserService implements UserDetailsService {
     private final SellerRepository sellerRepo;
     private final CategoryRepository categoryRepo;
     private final MessageRepository messageRepo;
+    private final LocationRepository locationRepo;
 
     @Autowired
     public UserService(UserRepository repository, SellerRepository sellerRepo, BidderRepository bidderRepo,
-                       CategoryRepository categoryRepo, MessageRepository messageRepo) {
+                       CategoryRepository categoryRepo, MessageRepository messageRepo,
+                       LocationRepository locationRepo) {
         this.sellerRepo = sellerRepo;
         this.bidderRepo = bidderRepo;
         this.repository = repository;
         this.categoryRepo = categoryRepo;
         this.messageRepo = messageRepo;
+        this.locationRepo = locationRepo;
     }
 
     public List<User> getAllUsers() { return repository.findAll(); }
@@ -59,7 +58,6 @@ public class UserService implements UserDetailsService {
                 categoryRepo.save(category);
             }
         }
-
         // delete messages of user
         List<Message> messages = messageRepo.getUserRelated(user.getUsername());
         messageRepo.deleteAll(messages);
@@ -78,6 +76,8 @@ public class UserService implements UserDetailsService {
     }
 
     public User addUser(User newUser) {
+        locationRepo.save(newUser.getLocation()); // save new location
+
         //Bidder and seller relations are created whenever a new user is created
 
         //Because user must exist before we create bidder,seller

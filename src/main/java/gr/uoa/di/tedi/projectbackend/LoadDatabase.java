@@ -29,35 +29,35 @@ class LoadDatabase {
         long now = System.currentTimeMillis();
 
         UserService userService =  new UserService(userRepository, sellerRepository, bidderRepository,
-                categoryRepository, messageRepository);
+                categoryRepository, messageRepository, locationRepository);
         ItemsService itemsService = new ItemsService(itemsRepository, itemRepository, bidRepository,
                 userRepository, categoryRepository, locationRepository);
+
+        // add locations
+        Location location = new Location("United Kingdom", "London", "-0.118092", "51.509865");
+        Location location2 = new Location("Greece", "Athens", "23.727539", "37.983810");
+        Location location3 = new Location("Spain", "Barcelona", "2.154007", "41.390205");
+        Location location4 = new Location("Australia", "Sydney", "151.209900", "-33.865143");
+        Location location5 = new Location("Nigeria", "Lagos", "3.327709", "6.457171");
 
         // if no admin exists, add one
         if (userRepository.getAdmin().isEmpty()) {
             userService.addUser(new User("Gianarg",
                     bCryptPasswordEncoder.encode("admin123"), // passwords must be encrypted in db
                     "giannis", "Argiros", "Gianarg@mail.com", "0123456789",
-                    "Paradeisos 666", "Ellas", "Kapou", true, true));
+                    true, true, location));
         }
 
         // mock users for testing (added every time backEnd runs)
         userService.addUser(new User("MichaelCaineReal",
                 bCryptPasswordEncoder.encode("innit123"),
                 "Michael", "Caine", "MCaine@mail.com", "0123456789",
-                "InYourHouse 69", "England", "Liverpool", false, false));
+                false, false, location2));
 
         userService.addUser(new User("MichaelCaineReal2",
                 bCryptPasswordEncoder.encode("innit123"),
                 "Michael", "Caine", "MCadine@mail.com", "0123456789",
-                "InYourHouse 69", "England", "Liverpool", false, false));
-
-        // add locations
-        Location location = new Location("United Kingdom", "London", "-0.118092", "51.509865",
-                userRepository.findByUsername("MichaelCaineReal"));
-
-        Location location2 = new Location("Greece", "Athens", "23.727539", "37.983810",
-                userRepository.findByUsername("Gianarg"));
+                false, false, location3));
 
         // add categories if they don't exist
         Category foodCategory = new Category("food");
@@ -88,7 +88,7 @@ class LoadDatabase {
         Items listing = new Items(10.0, 0.0, 1.0, new Timestamp(now),
                 new Timestamp(now + 999999999), 0,
                 userRepository.findByUsername("MichaelCaineReal").getSeller(),
-                location, new HashSet<>(Arrays.asList(foodCategory)));
+                location4, new HashSet<>(Arrays.asList(foodCategory)));
         itemsService.addItems(listing);
 
         Item iceCream = new Item("ice cream", "chocolate", listing);
@@ -104,7 +104,7 @@ class LoadDatabase {
         Items listing2 = new Items(700, 0.0, 350, new Timestamp(now),
                 new Timestamp(now + 999999999), 0,
                 userRepository.findByUsername("MichaelCaineReal2").getSeller(),
-                location2, new HashSet<>(Arrays.asList(videoGamesCategory, electronicsCategory)));
+                location5, new HashSet<>(Arrays.asList(videoGamesCategory, electronicsCategory)));
         itemsService.addItems(listing2);
 
         Item playstation = new Item("PlayStation 5", "Play has no limits", listing2);
