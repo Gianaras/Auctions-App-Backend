@@ -52,10 +52,8 @@ public class ItemsService {
         for (Item item : itemsTmp) {
             Item newItem = new Item(item.getName(), item.getDescription(), newItems);
             itemRepository.save(newItem);
-            System.out.println("aaaaaaaaaaaaaaa");
             for(Image image:item.getImages()){
                 Image newImage = new Image(newItem,image.getImage_data(),image.getImage_name());
-                System.out.println("test2 "+image.getImage_data());
                 imageRepository.save(newImage);
             }
             addNewItem(newItems, newItem);

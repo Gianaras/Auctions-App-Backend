@@ -19,13 +19,38 @@ public class MessageController {
 
     public MessageController(MessageService service){this.service = service;}
 
+
+    //===============Inbox functs===============
+
+
     @GetMapping("/messages/inbox/{username}")
     //only the user himself and admins can see received messages
     @PreAuthorize("(hasRole('user') && authentication.name == #username ) || hasRole('admin') ")
     public ResponseEntity<List<MessageElement>> getUserReceived(@PathVariable String username){
         List<MessageElement> messages = service.getUserReceived(username);
+
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
+
+
+    //Used to mark messages as read
+    @PutMapping("/messages/inbox/{username}")
+    @PreAuthorize("(hasRole('user') && authentication.name == #username) || hasRole('admin') ")
+    public ResponseEntity updateMessage(@PathVariable String username,@RequestBody MessageElement messageElement){
+        Message message = service.getMessage(messageElement.id);
+
+        if(!message.getReceiver().getUsername().equals(username)){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+
+        message.setIsRead(true);
+        service.updateMessage(message);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // ===============Send messages functs===============
+
+
 
     @GetMapping("/messages/send/{username}")
     //only the user himself and admins can see received messages
@@ -50,5 +75,30 @@ public class MessageController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
+
+
+//===============Outbox functs===============
+
+    @GetMapping("/messages/outbox/{username}")
+    //only the user himself and admins can see sent messages
+    @PreAuthorize("(hasRole('user') && authentication.name == #username ) || hasRole('admin') ")
+    public ResponseEntity<List<MessageElement>> getUserSent(@PathVariable String username){
+        List<MessageElement> messages = service.getUserSent(username);
+        return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
+
+    //===============General===============
+
+ @DeleteMapping("/messages/{username}/{messageID}")
+ @PreAuthorize("(hasRole('user') && authentication.name == #username ) || hasRole('admin') ")
+    public ResponseEntity deleteMessage(@PathVariable("username") String username,@PathVariable("messageID") Integer messageID){
+        Message message = service.getMessage(messageID);
+        if(!message.getSender().getUsername().equals(username) && !message.getReceiver().getUsername().equals(username) ){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        service.deleteMessage(message.getId());
+        return new ResponseEntity(HttpStatus.OK);
+ }
 
 }

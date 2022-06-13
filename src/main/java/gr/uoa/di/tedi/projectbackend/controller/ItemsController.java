@@ -46,11 +46,6 @@ public class ItemsController {
         Items item = service.getItem(id);
         item.setStartedUTC(item.getStarted().getTime());
         item.setEndsUTC(item.getEnds().getTime());
-        for(Item item1:item.getItems()){
-            for(Image image:item1.getImages()){
-                System.out.println(new String(image.getImage_data()));
-            }
-        }
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 

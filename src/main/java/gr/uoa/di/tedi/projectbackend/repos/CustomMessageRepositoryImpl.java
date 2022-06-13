@@ -32,10 +32,14 @@ public class CustomMessageRepositoryImpl implements CustomMessageRepository{
         List<Message> messages = query.getResultList();
         List<MessageElement> ret = new ArrayList<>();
         for(Message message:messages){
+            //create message element to send
             MessageElement temp =  new MessageElement();
             temp.receiver = message.getReceiver().getUsername();
             temp.sender = message.getSender().getUsername();
             temp.content = message.getMessage();
+            temp.isRead = message.getIsRead();
+            temp.id = message.getId();
+            temp.date = message.getDate_sent();
             ret.add(temp);
         }
         return ret;
@@ -78,4 +82,24 @@ public class CustomMessageRepositoryImpl implements CustomMessageRepository{
         return new ArrayList<>(relevant);
     }
 
+
+
+    public List<MessageElement> getUserSent(String username){
+        Query query = entityManager.createQuery("SELECT message FROM Message message WHERE message.sender.username = :username ");
+        query.setParameter("username",username);
+        List<Message> messages = query.getResultList();
+        List<MessageElement> ret = new ArrayList<>();
+        for(Message message:messages){
+            //create message element to send
+            MessageElement temp =  new MessageElement();
+            temp.receiver = message.getReceiver().getUsername();
+            temp.sender = message.getSender().getUsername();
+            temp.content = message.getMessage();
+            temp.isRead = message.getIsRead();
+            temp.id = message.getId();
+            temp.date = message.getDate_sent();
+            ret.add(temp);
+        }
+        return ret;
+    }
 }

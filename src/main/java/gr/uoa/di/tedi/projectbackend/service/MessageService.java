@@ -24,7 +24,7 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public Message getMessage(Long id) {
+    public Message getMessage(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new MessageNotFoundException(id));
     }
@@ -37,9 +37,9 @@ public class MessageService {
     }
 
 
-    public void deleteMessage(Long id) { repository.deleteById(id); }
+    public void deleteMessage(Integer id) { repository.deleteById(id); }
 
-    public Message updateUser(Message message) { return repository.save(message); }
+    public Message updateMessage(Message message) { return repository.save(message); }
 
     public List<Message> getAllMessages() { return repository.findAll(); }
 
@@ -47,4 +47,5 @@ public class MessageService {
 
     public List<User> getRelevantUsers(String username){return repository.getRelevantUsers(username);}
 
+    public List<MessageElement> getUserSent(String username) {return repository.getUserSent(username);}
 }

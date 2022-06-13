@@ -3,6 +3,7 @@ package gr.uoa.di.tedi.projectbackend.model;
 import antlr.debug.MessageAdapter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "message")
@@ -22,6 +23,28 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "reciever_id")
     private User receiver;
+
+    @Column(name = "date_sent")
+    private Timestamp date_sent;
+
+    @Column(name = "is_read")
+    private Boolean isRead;
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
+    }
+
+    public Timestamp getDate_sent() {
+        return date_sent;
+    }
+
+    public void setDate_sent(Timestamp date_sent) {
+        this.date_sent = date_sent;
+    }
 
     public User getReceiver() {
         return receiver;
@@ -59,6 +82,8 @@ public class Message {
         this.sender=sender;
         this.receiver =receiver;
         this.message=message;
+        this.date_sent = new Timestamp(System.currentTimeMillis());
+        this.isRead = false;
     }
 
 
