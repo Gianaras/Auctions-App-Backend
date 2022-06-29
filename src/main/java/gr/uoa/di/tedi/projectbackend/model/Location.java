@@ -22,7 +22,7 @@ public class Location {
     private String latitude;
 
     //from the examples 'location' is pairs of characters indicating region ,
-    // probably US states, like CA for California etc.
+    //usually US states, like CA for California etc.
     @Column(name = "location")
     private String location;
 

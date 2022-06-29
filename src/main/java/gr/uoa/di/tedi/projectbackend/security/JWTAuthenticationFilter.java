@@ -2,6 +2,8 @@ package gr.uoa.di.tedi.projectbackend.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gr.uoa.di.tedi.projectbackend.handling.UserNotActivatedException;
+import gr.uoa.di.tedi.projectbackend.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,11 +21,14 @@ import java.util.Date;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static gr.uoa.di.tedi.projectbackend.security.SecurityConstants.*;
 
+
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+   private UserService userService;
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager,UserService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @Override
@@ -33,6 +38,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // extract username and password from request
             gr.uoa.di.tedi.projectbackend.model.User creds = new ObjectMapper()
                     .readValue(req.getInputStream(), gr.uoa.di.tedi.projectbackend.model.User.class);
+
+            if(!userService.getUserFromUsername(creds.getUsername()).isActivated()){
+                throw new UserNotActivatedException();
+            }
 
             // check if username and password given are correct
             return authenticationManager.authenticate(
